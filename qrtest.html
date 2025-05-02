@@ -11,7 +11,7 @@
       padding: 0;
       background-color: #fdfdfd;
       text-align: center;
-      scroll-behavior: smooth; /* 추가: 전체 페이지 스무스 스크롤 */
+      scroll-behavior: smooth;
     }
     .menu-image {
       max-width: 100%;
@@ -31,7 +31,7 @@
       font-size: 1.1rem;
       margin-bottom: 10px;
     }
-    .copy-btn, .scroll-btn {
+    .copy-btn {
       background-color: #4CAF50;
       color: white;
       border: none;
@@ -39,27 +39,45 @@
       font-size: 1rem;
       border-radius: 8px;
       cursor: pointer;
-      margin: 5px;
+      margin-top: 5px;
     }
-    .copy-btn:hover, .scroll-btn:hover {
+    .copy-btn:hover {
+      background-color: #45a049;
+    }
+
+    /* floating 버튼 스타일 */
+    .floating-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 1000;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 12px 16px;
+      font-size: 1rem;
+      border-radius: 50px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      cursor: pointer;
+    }
+    .floating-btn:hover {
       background-color: #45a049;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>제1회 낮은마음 일일찻집</h1>
+    <h1>제 1회 낮은마음 일일찻집</h1>
     <img src="menu3.png" alt="낮은마음카페 메뉴 이미지" class="menu-image">
 
-    <!-- 하단으로 스크롤하는 버튼 -->
-    <button class="scroll-btn" onclick="scrollToAccount()">계좌번호 보기</button>
-
-    <!-- 계좌번호 영역 -->
     <div class="account-section" id="account-section">
       <div class="account-number" id="account">농협 123-45-678910 홍길동</div>
       <button class="copy-btn" onclick="copyAccount()">계좌번호 복사하기</button>
     </div>
   </div>
+
+  <!-- 떠있는 버튼 -->
+  <button class="floating-btn" onclick="scrollToAccount()">계좌번호 보기</button>
 
   <script>
     function copyAccount() {
