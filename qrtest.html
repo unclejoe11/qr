@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>QR 코드 계좌번호 복사</title>
+<script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+<style>
+  #qrcode {
+    width: 200px;
+    height: 200px;
+    margin-bottom: 10px;
+  }
+</style>
+</head>
+<body>
+
+<div id="qrcode"></div>
+<button id="copyButton">계좌번호 복사</button>
+<textarea id="accountNumber" style="position: absolute; left: -9999px;">YOUR_ACCOUNT_NUMBER_HERE</textarea>
+
+<script>
+  // JavaScript 코드는 여기에 작성됩니다.
+  document.addEventListener('DOMContentLoaded', function() {
+  const qrcodeDiv = document.getElementById('qrcode');
+  const copyButton = document.getElementById('copyButton');
+  const accountNumberTextarea = document.getElementById('accountNumber');
+  const accountNumber = "123-456-789"; // 실제 계좌번호를 여기에 입력하세요.
+
+  // 1. QR 코드 생성
+  const qrcode = new QRCode(qrcodeDiv, {
+    text: accountNumber,
+    width: 200,
+    height: 200
+  });
+
+  // accountNumber textarea에 계좌번호 설정 (숨겨진 텍스트 영역)
+  accountNumberTextarea.value = accountNumber;
+
+  // 2. 복사 버튼 클릭 이벤트 처리
+  copyButton.addEventListener('click', function() {
+    accountNumberTextarea.select(); // textarea 내용을 선택
+    document.execCommand('copy'); // 클립보드에 복사
+    alert('계좌번호가 클립보드에 복사되었습니다.'); // 사용자에게 알림
+  });
+});
+</script>
+
+</body>
+</html>
