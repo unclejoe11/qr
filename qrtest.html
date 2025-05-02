@@ -45,24 +45,24 @@
       background-color: #45a049;
     }
 
-    /* floating 버튼 스타일 */
-    .floating-btn {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      z-index: 1000;
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      padding: 12px 16px;
-      font-size: 1rem;
-      border-radius: 50px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-      cursor: pointer;
-    }
-    .floating-btn:hover {
-      background-color: #45a049;
-    }
+    /* floating 버튼 스타일 (블루 계열로 수정) */
+.floating-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+  background-color: #007BFF; /* 파란색 계열 */
+  color: white;
+  border: none;
+  padding: 12px 16px;
+  font-size: 1rem;
+  border-radius: 50px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  cursor: pointer;
+}
+.floating-btn:hover {
+  background-color: #0056b3; /* 어두운 파란색 */
+}
   </style>
 </head>
 <body>
@@ -77,7 +77,7 @@
   </div>
 
   <!-- 떠있는 버튼 -->
-  <button class="floating-btn" onclick="scrollToAccount()">계좌번호 보기</button>
+  <button class="floating-btn" onclick="scrollToAccount()">계좌번호</button>
 
   <script>
     function copyAccount() {
