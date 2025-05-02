@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>QR 코드 계좌번호 복사</title>
+<title>일일찻집 계좌번호 복사 안내</title>
 <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
 <style>
   #qrcode {
-    width: 200px;
-    height: 200px;
+    width: 100%;
     margin-bottom: 10px;
   }
 </style>
@@ -15,7 +14,7 @@
 
 <div id="qrcode"></div>
 <button id="copyButton">계좌번호 복사</button>
-<textarea id="accountNumber" style="position: absolute; left: -9999px;">YOUR_ACCOUNT_NUMBER_HERE</textarea>
+<textarea id="accountNumber" style="position: absolute; left: -9999px;">국민은행 : 549802-01-156789</textarea>
 
 <script>
   // JavaScript 코드는 여기에 작성됩니다.
@@ -23,7 +22,7 @@
   const qrcodeDiv = document.getElementById('qrcode');
   const copyButton = document.getElementById('copyButton');
   const accountNumberTextarea = document.getElementById('accountNumber');
-  const accountNumber = "123-456-789"; // 실제 계좌번호를 여기에 입력하세요.
+  const accountNumber = "549802-01-156789"; // 실제 계좌번호를 여기에 입력하세요.
 
   // 1. QR 코드 생성
   const qrcode = new QRCode(qrcodeDiv, {
