@@ -1,47 +1,68 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
-<title>일일찻집 계좌번호 복사 안내</title>
-<script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
-<style>
-  #qrcode {
-    width: 100%;
-    margin-bottom: 10px;
-  }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>낮은마음카페 메뉴</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #fdfdfd;
+      text-align: center;
+    }
+    .menu-image {
+      max-width: 100%;
+      height: auto;
+      padding: 10px;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .account-section {
+      margin-top: 20px;
+      padding: 10px;
+    }
+    .account-number {
+      font-size: 1.1rem;
+      margin-bottom: 10px;
+    }
+    .copy-btn {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .copy-btn:hover {
+      background-color: #45a049;
+    }
+  </style>
 </head>
 <body>
+  <div class="container">
+    <h1>낮은마음카페 메뉴</h1>
+    <img src="menu2.png" alt="낮은마음카페 메뉴 이미지" class="menu-image">
+    
+    <div class="account-section">
+      <div class="account-number" id="account">농협 123-45-678910 홍길동</div>
+      <button class="copy-btn" onclick="copyAccount()">계좌번호 복사하기</button>
+    </div>
+  </div>
 
-<div id="qrcode"></div>
-<button id="copyButton">계좌번호 복사</button>
-<textarea id="accountNumber" style="position: absolute; left: -9999px;">국민은행 : 549802-01-156789</textarea>
-
-<script>
-  // JavaScript 코드는 여기에 작성됩니다.
-  document.addEventListener('DOMContentLoaded', function() {
-  const qrcodeDiv = document.getElementById('qrcode');
-  const copyButton = document.getElementById('copyButton');
-  const accountNumberTextarea = document.getElementById('accountNumber');
-  const accountNumber = "549802-01-156789"; // 실제 계좌번호를 여기에 입력하세요.
-
-  // 1. QR 코드 생성
-  const qrcode = new QRCode(qrcodeDiv, {
-    text: accountNumber,
-    width: 200,
-    height: 200
-  });
-
-  // accountNumber textarea에 계좌번호 설정 (숨겨진 텍스트 영역)
-  accountNumberTextarea.value = accountNumber;
-
-  // 2. 복사 버튼 클릭 이벤트 처리
-  copyButton.addEventListener('click', function() {
-    accountNumberTextarea.select(); // textarea 내용을 선택
-    document.execCommand('copy'); // 클립보드에 복사
-    alert('계좌번호가 클립보드에 복사되었습니다.'); // 사용자에게 알림
-  });
-});
-</script>
-
+  <script>
+    function copyAccount() {
+      const accountText = document.getElementById("account").innerText;
+      navigator.clipboard.writeText(accountText).then(() => {
+        alert("계좌번호가 복사되었습니다.");
+      }).catch(err => {
+        alert("복사에 실패했습니다: " + err);
+      });
+    }
+  </script>
 </body>
 </html>
