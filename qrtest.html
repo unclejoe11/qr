@@ -80,6 +80,7 @@
   <button class="floating-btn" onclick="scrollToAccount()">계좌번호</button>
 
   <script>
+    alert('2회 찻집에서 만나요');
     function copyAccount() {
       const accountText = document.getElementById("account").innerText;
       navigator.clipboard.writeText(accountText).then(() => {
