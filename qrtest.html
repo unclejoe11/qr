@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>낮은마음카페 메뉴</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #fdfdfd;
+      text-align: center;
+      scroll-behavior: smooth;
+    }
+    .menu-image {
+      max-width: 100%;
+      height: auto;
+      padding: 10px;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .account-section {
+      margin-top: 30px;
+      padding: 20px;
+      background-color: #f0f0f0;
+    }
+    .account-number {
+      font-size: 1.1rem;
+      margin-bottom: 10px;
+    }
+    .copy-btn {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 5px;
+    }
+    .copy-btn:hover {
+      background-color: #45a049;
+    }
+
+    /* floating 버튼 스타일 (블루 계열로 수정) */
+.floating-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+  background-color: #007BFF; /* 파란색 계열 */
+  color: white;
+  border: none;
+  padding: 12px 16px;
+  font-size: 1rem;
+  border-radius: 50px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  cursor: pointer;
+}
+.floating-btn:hover {
+  background-color: #0056b3; /* 어두운 파란색 */
+}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>제 1회 낮은마음 일일찻집</h1>
+    <img src="menu3.png" alt="낮은마음카페 메뉴 이미지" class="menu-image">
+
+    <div class="account-section" id="account-section">
+      <div class="account-number" id="account">test 111111-04-xxxxxxx 홍길동</div>
+      <button class="copy-btn" onclick="copyAccount()">계좌번호 복사하기</button>
+    </div>
+  </div>
+
+  <!-- 떠있는 버튼 -->
+  <button class="floating-btn" onclick="scrollToAccount()">계좌번호</button>
+
+  <script>
+    alert('낮은마음 일일찻집이 은혜가운데 잘 마쳤습니다.\n다음 일일찻집도 기대해 주시고, 많은 응원 부탁드려요~');
+    function copyAccount() {
+      const accountText = document.getElementById("account").innerText;
+      navigator.clipboard.writeText(accountText).then(() => {
+        alert("계좌번호가 복사되었습니다.");
+      }).catch(err => {
+        alert("복사에 실패했습니다: " + err);
+      });
+    }
+
+    function scrollToAccount() {
+      document.getElementById("account-section").scrollIntoView({ behavior: "smooth" });
+    }
+  </script>
+</body>
+</html>
