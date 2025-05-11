@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>낮은마음카페 메뉴</title>
+  <title>결제계좌안내</title>
   <style>
     body {
       font-family: sans-serif;
@@ -67,24 +67,20 @@
 </head>
 <body>
   <div class="container">
-    <h1>제 1회 낮은마음 일일찻집</h1>
-    <img src="menu3.png" alt="낮은마음카페 메뉴 이미지" class="menu-image">
-
+    <h1>결제 계좌 안내</h1>
     <div class="account-section" id="account-section">
       <div class="account-number" id="account">test 111111-04-xxxxxxx 홍길동</div>
       <button class="copy-btn" onclick="copyAccount()">계좌번호 복사하기</button>
     </div>
   </div>
 
-  <!-- 떠있는 버튼 -->
-  <button class="floating-btn" onclick="scrollToAccount()">계좌번호</button>
-
   <script>
-    alert('낮은마음 일일찻집이 은혜가운데 잘 마쳤습니다.\n다음 일일찻집도 기대해 주시고, 많은 응원 부탁드려요~');
+    //alert('낮은마음 일일찻집이 은혜가운데 잘 마쳤습니다.\n다음 일일찻집도 기대해 주시고, 많은 응원 부탁드려요~');
+    copyAccount();
     function copyAccount() {
       const accountText = document.getElementById("account").innerText;
       navigator.clipboard.writeText(accountText).then(() => {
-        alert("계좌번호가 복사되었습니다.");
+        alert("계좌번호가 복사되었습니다.\n은행앱에서 복사한 계좌를 붙여넣기 후 이체 해주시면 됩니다.");
       }).catch(err => {
         alert("복사에 실패했습니다: " + err);
       });
