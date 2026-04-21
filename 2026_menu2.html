@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2026 낮은마음바자회</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  
+  <style>
+    body { font-family: sans-serif; margin: 0; padding: 0; background-color: #fdfdfd; text-align: center; scroll-behavior: smooth; }
+    h2 { margin: 15px 0; font-size: 1.3rem; }
+    .container { max-width: 600px; margin: 0 auto; padding-bottom: 80px; }
+    
+    .menu-image { 
+      max-width: 100%; 
+      max-height: 60vh; 
+      height: auto; 
+      display: block;
+      margin: 0 auto;
+      object-fit: contain;
+    }
+
+    .swiper { width: 100%; height: auto; margin-top: 20px; border-radius: 10px; background: #eee; padding-bottom: 40px; }
+    .swiper-slide img { width: 100%; height: auto; display: block; }
+    .swipe-info { font-size: 0.85rem; color: #888; margin-top: 10px; }
+
+    .account-section { margin-top: 15px; padding: 20px; background-color: #f0f0f0; border-radius: 10px; }
+    .account-number { font-size: 1.1rem; margin-bottom: 10px; font-weight: bold; }
+    
+    .btn { color: white; border: none; padding: 12px 20px; font-size: 1rem; border-radius: 8px; cursor: pointer; margin: 5px; display: inline-block; text-decoration: none; font-weight: bold; }
+    .copy-btn { background-color: #4CAF50; }
+    .view-btn { background-color: #f39c12; }
+    .list-btn { background-color: #9b59b6; }
+
+    .mySwiper .swiper-pagination-fraction { bottom: 5px; font-weight: bold; color: #555; }
+    .swiper-button-next, .swiper-button-prev { top: 45%; color: #007BFF; transform: scale(0.7); }
+
+    .wish-btn {
+      position: absolute; top: 15px; right: 15px; z-index: 10;
+      background: rgba(255, 255, 255, 0.8); border: none; border-radius: 50%;
+      width: 45px; height: 45px; font-size: 1.5rem; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+    .wish-btn.active { color: #e74c3c; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>2026년 낮은마음 선교바자회</h2>
+    <img src="poster1.jpg" alt="낮은마음바자회 이미지" class="menu-image">
+    
+    <div style="margin-top: 15px;">
+      <button class="btn view-btn" onclick="scrollToCatalog()">바자회 상품보기</button>
+      <button class="btn copy-btn" onclick="copyAccount()">계좌번호 복사</button>
+      <button id="wish-mode-btn" class="btn list-btn" onclick="toggleWishMode()">찜한 상품보기</button>
+    </div>
+
+    <div class="account-section" id="account-section">
+      <div class="account-number" id="account">카카오뱅크 3333 1561 53575 이설희</div>
+      <p style="font-size: 0.9rem; color: #666;">후원해주신 정성은 선교를 위해 소중히 사용됩니다.</p>
+    </div>
+    
+    <div id="catalog-area">
+      <p class="swipe-info">◀ 좌우로 밀어서 보세요 ▶</p>
+      <div class="swiper mySwiper">
+        <div class="swiper-wrapper" id="swiper-container"></div>
+        <div class="swiper-pagination"></div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <script>
+    const totalImages = 107;
+    let wishlist = JSON.parse(localStorage.getItem('bazaar_wish')) || [];
+    let isWishMode = false;
+
+    // 1. Swiper 초기화 (전역 변수로 설정)
+    const swiper = new Swiper(".mySwiper", {
+      zoom: { maxRatio: 3, minRatio: 1 },
+      pagination: { el: ".swiper-pagination", type: "fraction" },
+      navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" },
+      lazy: true,
+      loop: false // 찜 모드와 충돌 방지를 위해 false 권장
+    });
+
+    // 2. 슬라이드 렌더링 함수
+    function renderSlides() {
+      const container = document.getElementById('swiper-container');
+      container.innerHTML = ''; 
+
+      let displayPages = isWishMode 
+        ? [...wishlist].sort((a, b) => a - b) 
+        : Array.from({length: totalImages}, (_, i) => i + 1);
+
+      displayPages.forEach((pageNum) => {
+        const slide = document.createElement('div');
+        slide.className = 'swiper-slide';
+
+        const wishBtn = document.createElement('button');
+        wishBtn.className = `wish-btn ${wishlist.includes(pageNum) ? 'active' : ''}`;
+        wishBtn.innerHTML = wishlist.includes(pageNum) ? '♥' : '♡';
+        wishBtn.onclick = (e) => {
+          e.stopPropagation();
+          toggleWish(pageNum, wishBtn);
+        };
+
+        const zoomContainer = document.createElement('div');
+        zoomContainer.className = 'swiper-zoom-container';
+        const img = document.createElement('img');
+        const fileNumber = String(pageNum).padStart(4, '0');
+        img.src = `img/2026_catalog_page-${fileNumber}.jpg`;
+        img.loading = "lazy";
+
+        zoomContainer.appendChild(img);
+        slide.appendChild(wishBtn);
+        slide.appendChild(zoomContainer);
+        container.appendChild(slide);
+      });
+
+      swiper.update();
+      swiper.slideTo(0, 0);
+    }
+
+    // 3. 찜하기 토글
+    function toggleWish(pageId, btn) {
+      const index = wishlist.indexOf(pageId);
+      if (index > -1) {
+        wishlist.splice(index, 1);
+        btn.innerHTML = '♡';
+        btn.classList.remove('active');
+      } else {
+        wishlist.push(pageId);
+        btn.innerHTML = '♥';
+        btn.classList.add('active');
+      }
+      localStorage.setItem('bazaar_wish', JSON.stringify(wishlist));
+    }
+
+    // 4. 모드 전환
+    function toggleWishMode() {
+      if (!isWishMode && wishlist.length === 0) {
+        alert("찜한 상품이 없습니다. 하트를 눌러 상품을 골라보세요!");
+        return;
+      }
+      isWishMode = !isWishMode;
+      const btn = document.getElementById('wish-mode-btn');
+      btn.innerText = isWishMode ? "전체 카탈로그 보기" : "찜한 상품보기";
+      btn.style.backgroundColor = isWishMode ? "#555" : "#9b59b6";
+      renderSlides();
+      scrollToCatalog();
+    }
+
+    // 5. 유틸리티
+    function copyAccount() {
+      const accountText = document.getElementById("account").innerText;
+      navigator.clipboard.writeText(accountText).then(() => {
+        alert("계좌번호가 복사되었습니다.");
+      }).catch(err => alert("복사실패: " + err));
+    }
+
+    function scrollToCatalog() {
+      document.getElementById("catalog-area").scrollIntoView({ behavior: "smooth" });
+    }
+
+    // 초기 실행
+    renderSlides();
+  </script>
+</body>
+</html>
