@@ -98,24 +98,38 @@
     const container = document.getElementById('swiper-container');
     const totalImages = 107; 
 
+    // 기존 스크립트 내 반복문 부분 수정
     for (let i = 1; i <= totalImages; i++) {
       const slide = document.createElement('div');
       slide.className = 'swiper-slide';
+    
+      // 1. Zoom을 위한 컨테이너 추가
+      const zoomContainer = document.createElement('div');
+      zoomContainer.className = 'swiper-zoom-container';
+    
       const img = document.createElement('img');
       const fileNumber = String(i).padStart(4, '0'); 
       img.src = `img/2026_catalog_page-${fileNumber}.jpg`; 
       img.alt = `카탈로그 페이지 ${i}`;
-      img.loading = "lazy"; // 지연 로딩
-      slide.appendChild(img);
+      img.loading = "lazy";
+    
+      // 2. 조립 순서: img -> zoomContainer -> slide
+      zoomContainer.appendChild(img);
+      slide.appendChild(zoomContainer);
       container.appendChild(slide);
     }
 
     // 2. Swiper 초기화
     const swiper = new Swiper(".mySwiper", {
+      // Zoom 기능 활성화
+      zoom: {
+        maxRatio: 3, // 최대 3배까지 확대 가능
+        minRatio: 1,
+      },
       pagination: { el: ".swiper-pagination", type: "fraction" },
       navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" },
       lazy: true,
-      loop: false
+      loop: true
     });
 
     // 3. 유틸리티 함수
