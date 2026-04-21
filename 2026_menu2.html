@@ -20,7 +20,7 @@
       object-fit: contain;
     }
 
-    .swiper { width: 100%; height: auto; margin-top: 20px; border-radius: 10px; background: #eee; padding-bottom: 40px; }
+    .swiper { width: 100%; height: auto; margin-top: 20px; border-radius: 10px; background: #eee; }
     .swiper-slide img { width: 100%; height: auto; display: block; }
     .swipe-info { font-size: 0.85rem; color: #888; margin-top: 10px; }
 
@@ -30,10 +30,42 @@
     .btn { color: white; border: none; padding: 12px 20px; font-size: 1rem; border-radius: 8px; cursor: pointer; margin: 5px; display: inline-block; text-decoration: none; font-weight: bold; }
     .copy-btn { background-color: #4CAF50; }
     .view-btn { background-color: #f39c12; }
-    .list-btn { background-color: #9b59b6; }
 
-    .mySwiper .swiper-pagination-fraction { bottom: 5px; font-weight: bold; color: #555; }
+    /* 슬라이더 하단 여백 및 컨트롤 레이아웃 */
+    .mySwiper {
+      padding-bottom: 80px !important; /* 버튼과 페이지네이션 공간 확보 */
+    }
+    
+    /* 페이지네이션 (숫자) 위치 조정 */
+    .mySwiper .swiper-pagination-fraction {
+      bottom: 50px !important;
+      font-weight: bold;
+      color: #555;
+    }
+
     .swiper-button-next, .swiper-button-prev { top: 45%; color: #007BFF; transform: scale(0.7); }
+    
+    .slider-controls {
+      position: absolute;
+      bottom: 10px;
+      left: 0;
+      width: 100%;
+      z-index: 10;
+      display: flex;
+      justify-content: center;
+    }
+
+    .wish-toggle-btn {
+      background-color: #9b59b6;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 0.9rem;
+      border-radius: 25px;
+      cursor: pointer;
+      font-weight: bold;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
 
     .wish-btn {
       position: absolute; top: 15px; right: 15px; z-index: 10;
@@ -53,7 +85,6 @@
     <div style="margin-top: 15px;">
       <button class="btn view-btn" onclick="scrollToCatalog()">바자회 상품보기</button>
       <button class="btn copy-btn" onclick="copyAccount()">계좌번호 복사</button>
-      <button id="wish-mode-btn" class="btn list-btn" onclick="toggleWishMode()">찜한 상품보기</button>
     </div>
 
     <div class="account-section" id="account-section">
@@ -62,10 +93,15 @@
     </div>
     
     <div id="catalog-area">
-      <p class="swipe-info">◀ 좌우로 밀어서 보세요 ▶</p>
+      <p class="swipe-info">◀ 좌우로 밀어서 보세요 (더블클릭 확대) ▶</p>
       <div class="swiper mySwiper">
         <div class="swiper-wrapper" id="swiper-container"></div>
         <div class="swiper-pagination"></div>
+
+        <div class="slider-controls">
+            <button id="wish-mode-btn" class="wish-toggle-btn" onclick="toggleWishMode()">찜한 상품 모아보기</button>
+        </div>
+
         <div class="swiper-button-next"></div>
         <div class="swiper-button-prev"></div>
       </div>
@@ -78,13 +114,13 @@
     let wishlist = JSON.parse(localStorage.getItem('bazaar_wish')) || [];
     let isWishMode = false;
 
-    // 1. Swiper 초기화 (전역 변수로 설정)
+    // 1. Swiper 초기화
     const swiper = new Swiper(".mySwiper", {
       zoom: { maxRatio: 3, minRatio: 1 },
       pagination: { el: ".swiper-pagination", type: "fraction" },
       navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" },
       lazy: true,
-      loop: false // 찜 모드와 충돌 방지를 위해 false 권장
+      loop: false
     });
 
     // 2. 슬라이드 렌더링 함수
@@ -132,6 +168,7 @@
         wishlist.splice(index, 1);
         btn.innerHTML = '♡';
         btn.classList.remove('active');
+        // 찜 모드에서 찜 해제 시 목록을 즉시 갱신하고 싶다면 여기서 renderSlides() 호출 가능
       } else {
         wishlist.push(pageId);
         btn.innerHTML = '♥';
@@ -148,7 +185,7 @@
       }
       isWishMode = !isWishMode;
       const btn = document.getElementById('wish-mode-btn');
-      btn.innerText = isWishMode ? "전체 카탈로그 보기" : "찜한 상품보기";
+      btn.innerText = isWishMode ? "전체 상품보기" : "찜한 상품 모아보기";
       btn.style.backgroundColor = isWishMode ? "#555" : "#9b59b6";
       renderSlides();
       scrollToCatalog();
