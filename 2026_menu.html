@@ -8,14 +8,20 @@
   
   <style>
     body { font-family: sans-serif; margin: 0; padding: 0; background-color: #fdfdfd; text-align: center; scroll-behavior: smooth; }
-    .container { max-width: 600px; margin: 0 auto; padding-bottom: 80px; }
+
+    /* 컨테이너 상단 여백 살짝 줄이기 */
+    h2 { margin: 15px 0; font-size: 1.3rem; }
     
-    /* 메인 이미지 최적화 */
+    .container { max-width: 600px; margin: 0 auto; padding-bottom: 80px; }
+     /* 메인 이미지 모바일 최적화 및 높이 제한 */
     .menu-image { 
       max-width: 100%; 
+      /* 뷰포트 높이(vh)의 60%를 넘지 않도록 설정하여 하단 버튼 공간 확보 */
+      max-height: 60vh; 
       height: auto; 
       display: block;
       margin: 0 auto;
+      object-fit: contain; /* 가로세로 비율 유지 */
     }
 
     /* 슬라이더 스타일 */
