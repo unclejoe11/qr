@@ -39,6 +39,26 @@
     .view-btn { background-color: #f39c12; }
 
     .floating-btn { position: fixed; bottom: 20px; right: 20px; z-index: 1000; background-color: #007BFF; color: white; border: none; padding: 12px 16px; font-size: 1rem; border-radius: 50px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); cursor: pointer; }
+
+    /* 1. 슬라이더 하단에 페이지 번호가 들어갈 공간 확보 */
+    .mySwiper {
+      padding-bottom: 40px; /* 번호가 들어갈 아래쪽 여백 */
+      background-color: transparent; /* 배경색이 있다면 조절 */
+    }
+    
+    /* 2. 페이지 번호 위치를 절대값이 아닌 여백 안으로 이동 */
+    .mySwiper .swiper-pagination-fraction {
+      bottom: 5px; /* 컨테이너 바닥에서 5px 정도만 띄움 */
+      font-weight: bold;
+      color: #555;
+    }
+    
+    /* 3. 좌우 화살표 버튼이 이미지를 너무 가린다면 투명도를 조절할 수 있습니다 (선택) */
+    .swiper-button-next, .swiper-button-prev {
+      top: 45%; /* 화살표 중심 위치 살짝 조정 */
+      color: #007BFF;
+      transform: scale(0.7); /* 화살표 크기를 살짝 줄여서 이미지를 덜 가리게 함 */
+    }
   </style>
 </head>
 <body>
