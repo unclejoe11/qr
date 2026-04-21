@@ -10,16 +10,27 @@
     body { font-family: sans-serif; margin: 0; padding: 0; background-color: #fdfdfd; text-align: center; scroll-behavior: smooth; }
     .container { max-width: 600px; margin: 0 auto; padding-bottom: 80px; }
     
+    /* 메인 이미지 최적화 */
+    .menu-image { 
+      max-width: 100%; 
+      height: auto; 
+      display: block;
+      margin: 0 auto;
+    }
+
     /* 슬라이더 스타일 */
-    .swiper { width: 100%; height: auto; margin-top: 10px; border-radius: 10px; }
+    .swiper { width: 100%; height: auto; margin-top: 20px; border-radius: 10px; background: #eee; }
     .swiper-slide img { width: 100%; height: auto; display: block; }
-    .swiper-pagination-bullet-active { background: #007BFF; }
+    
+    /* 카탈로그 안내 문구 */
+    .swipe-info { font-size: 0.85rem; color: #888; margin-top: 10px; }
 
     .account-section { margin-top: 30px; padding: 20px; background-color: #f0f0f0; border-radius: 10px; }
-    .account-number { font-size: 1.1rem; margin-bottom: 10px; }
-    .btn { color: white; border: none; padding: 10px 20px; font-size: 1rem; border-radius: 8px; cursor: pointer; margin-top: 10px; display: inline-block; text-decoration: none; }
+    .account-number { font-size: 1.1rem; margin-bottom: 10px; font-weight: bold; }
+    
+    .btn { color: white; border: none; padding: 12px 20px; font-size: 1rem; border-radius: 8px; cursor: pointer; margin: 5px; display: inline-block; text-decoration: none; font-weight: bold; }
     .copy-btn { background-color: #4CAF50; }
-    .download-btn { background-color: #f39c12; margin-left: 5px; }
+    .view-btn { background-color: #f39c12; }
 
     .floating-btn { position: fixed; bottom: 20px; right: 20px; z-index: 1000; background-color: #007BFF; color: white; border: none; padding: 12px 16px; font-size: 1rem; border-radius: 50px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); cursor: pointer; }
   </style>
@@ -27,34 +38,60 @@
 <body>
   <div class="container">
     <h2>2026년 낮은마음 선교바자회</h2>
+    
     <img src="poster1.jpg" alt="낮은마음바자회 이미지" class="menu-image">
     
-   <div class="swiper mySwiper">
-  <div class="swiper-wrapper" id="swiper-container">
+    <div style="margin-top: 15px;">
+        <button class="btn view-btn" onclick="scrollToCatalog()">카탈로그 보기</button>
+        <button class="btn copy-btn" onclick="copyAccount()">계좌번호 복사</button>
     </div>
-  <div class="swiper-pagination"></div>
-  <div class="swiper-button-next"></div>
-  <div class="swiper-button-prev"></div>
-</div>
+
+    <div id="catalog-area">
+      <p class="swipe-info">◀ 좌우로 밀어서 보세요 ▶</p>
+      <div class="swiper mySwiper">
+        <div class="swiper-wrapper" id="swiper-container">
+          </div>
+        <div class="swiper-pagination"></div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+      </div>
+    </div>
 
     <div class="account-section" id="account-section">
       <div class="account-number" id="account">카카오뱅크 3333 1561 53575 이설희</div>
-      <button class="btn copy-btn" onclick="copyAccount()">계좌번호 복사하기</button>
-      <a href="2026_catalog.pdf" download class="btn download-btn">전체 PDF 저장</a>
+      <p style="font-size: 0.9rem; color: #666;">후원해주신 정성은 선교를 위해 소중히 사용됩니다.</p>
     </div>
   </div>
 
-  <button class="floating-btn" onclick="scrollToAccount()">이체</button>
+  <button class="floating-btn" onclick="scrollToAccount()">이체하기</button>
 
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
   <script>
-    // 슬라이더 초기화
+    // 1. 이미지 동적 생성 (107장)
+    const container = document.getElementById('swiper-container');
+    const totalImages = 107; 
+
+    for (let i = 1; i <= totalImages; i++) {
+      const slide = document.createElement('div');
+      slide.className = 'swiper-slide';
+      const img = document.createElement('img');
+      const fileNumber = String(i).padStart(4, '0'); 
+      img.src = `img/2026_catalog_page-${fileNumber}.jpg`; 
+      img.alt = `카탈로그 페이지 ${i}`;
+      img.loading = "lazy"; // 지연 로딩
+      slide.appendChild(img);
+      container.appendChild(slide);
+    }
+
+    // 2. Swiper 초기화
     const swiper = new Swiper(".mySwiper", {
-      pagination: { el: ".swiper-pagination", clickable: true },
+      pagination: { el: ".swiper-pagination", type: "fraction" },
       navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" },
-      loop: true, // 무한 반복
+      lazy: true,
+      loop: false
     });
 
+    // 3. 유틸리티 함수
     function copyAccount() {
       const accountText = document.getElementById("account").innerText;
       navigator.clipboard.writeText(accountText).then(() => {
@@ -65,35 +102,10 @@
     function scrollToAccount() {
       document.getElementById("account-section").scrollIntoView({ behavior: "smooth" });
     }
+
+    function scrollToCatalog() {
+      document.getElementById("catalog-area").scrollIntoView({ behavior: "smooth" });
+    }
   </script>
- <script>
-  const container = document.getElementById('swiper-container');
-  const totalImages = 107; // 실제 이미지 개수에 맞춰 수정하세요
-
-  for (let i = 1; i <= totalImages; i++) {
-    const slide = document.createElement('div');
-    slide.className = 'swiper-slide';
-
-    const img = document.createElement('img');
-    
-    // 핵심 로직: 숫자를 4자리 문자열로 만들고 앞을 '0'으로 채움
-    const fileNumber = String(i).padStart(4, '0'); 
-    img.src = `img/2026_catalog_page-${fileNumber}.jpg`; 
-    
-    img.alt = `카탈로그 페이지 ${i}`;
-    img.loading = "lazy"; // 성능을 위해 지연 로딩 적용
-
-    slide.appendChild(img);
-    container.appendChild(slide);
-  }
-
-  // Swiper 초기화 (이미지가 생성된 후 실행)
-  const swiper = new Swiper(".mySwiper", {
-    pagination: { el: ".swiper-pagination", type: "fraction" }, // 100장이 넘으므로 '1/100' 형태로 표시 추천
-    navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" },
-    lazy: true,
-    loop: false, // 장수가 많을 때는 루프를 끄는 것이 사용자 혼란을 줄일 수 있습니다.
-  });
-</script>
 </body>
 </html>
