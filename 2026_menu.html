@@ -4,107 +4,95 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>2026 낮은마음바자회</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  
   <style>
-    body {
-      font-family: sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #fdfdfd;
-      text-align: center;
-      scroll-behavior: smooth;
-    }
-    .menu-image {
-      max-width: 100%;
-      height: auto;
-      padding: 10px;
-    }
-    .container {
-      max-width: 600px;
-      margin: 0 auto;
-    }
-    .account-section {
-      margin-top: 30px;
-      padding: 20px;
-      background-color: #f0f0f0;
-    }
-    .account-number {
-      font-size: 1.1rem;
-      margin-bottom: 10px;
-    }
-    /* 버튼 공통 스타일 */
-    .btn {
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      font-size: 1rem;
-      border-radius: 8px;
-      cursor: pointer;
-      margin-top: 10px;
-      display: inline-block;
-      text-decoration: none;
-    }
-    .copy-btn {
-      background-color: #4CAF50;
-    }
-    .copy-btn:hover {
-      background-color: #45a049;
-    }
-    /* 카탈로그 다운로드 버튼 스타일 */
-    .download-btn {
-      background-color: #f39c12; /* 오렌지 계열로 구분 */
-      margin-left: 5px;
-    }
-    .download-btn:hover {
-      background-color: #e67e22;
-    }
+    body { font-family: sans-serif; margin: 0; padding: 0; background-color: #fdfdfd; text-align: center; scroll-behavior: smooth; }
+    .container { max-width: 600px; margin: 0 auto; padding-bottom: 80px; }
+    
+    /* 슬라이더 스타일 */
+    .swiper { width: 100%; height: auto; margin-top: 10px; border-radius: 10px; }
+    .swiper-slide img { width: 100%; height: auto; display: block; }
+    .swiper-pagination-bullet-active { background: #007BFF; }
 
-    .floating-btn {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      z-index: 1000;
-      background-color: #007BFF;
-      color: white;
-      border: none;
-      padding: 12px 16px;
-      font-size: 1rem;
-      border-radius: 50px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-      cursor: pointer;
-    }
-    .floating-btn:hover {
-      background-color: #0056b3;
-    }
+    .account-section { margin-top: 30px; padding: 20px; background-color: #f0f0f0; border-radius: 10px; }
+    .account-number { font-size: 1.1rem; margin-bottom: 10px; }
+    .btn { color: white; border: none; padding: 10px 20px; font-size: 1rem; border-radius: 8px; cursor: pointer; margin-top: 10px; display: inline-block; text-decoration: none; }
+    .copy-btn { background-color: #4CAF50; }
+    .download-btn { background-color: #f39c12; margin-left: 5px; }
+
+    .floating-btn { position: fixed; bottom: 20px; right: 20px; z-index: 1000; background-color: #007BFF; color: white; border: none; padding: 12px 16px; font-size: 1rem; border-radius: 50px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); cursor: pointer; }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>2026년 낮은마음 선교바자회</h1>
-    <img src="poster1.jpg" alt="낮은마음바자회 이미지" class="menu-image">
+    <h2>2026년 낮은마음 선교바자회</h2>
+    
+   <div class="swiper mySwiper">
+  <div class="swiper-wrapper" id="swiper-container">
+    </div>
+  <div class="swiper-pagination"></div>
+  <div class="swiper-button-next"></div>
+  <div class="swiper-button-prev"></div>
+</div>
 
     <div class="account-section" id="account-section">
       <div class="account-number" id="account">카카오뱅크 3333 1561 53575 이설희</div>
       <button class="btn copy-btn" onclick="copyAccount()">계좌번호 복사하기</button>
-      
-      <a href="2026_catalog.pdf" download class="btn download-btn">카탈로그 다운받기</a>
-      </div>
+      <a href="2026_catalog.pdf" download class="btn download-btn">전체 PDF 저장</a>
+    </div>
   </div>
 
   <button class="floating-btn" onclick="scrollToAccount()">이체</button>
 
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
   <script>
+    // 슬라이더 초기화
+    const swiper = new Swiper(".mySwiper", {
+      pagination: { el: ".swiper-pagination", clickable: true },
+      navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" },
+      loop: true, // 무한 반복
+    });
+
     function copyAccount() {
       const accountText = document.getElementById("account").innerText;
       navigator.clipboard.writeText(accountText).then(() => {
         alert("계좌번호가 복사되었습니다.");
-      }).catch(err => {
-        alert("복사에 실패했습니다: " + err);
-      });
+      }).catch(err => alert("복사실패: " + err));
     }
 
     function scrollToAccount() {
       document.getElementById("account-section").scrollIntoView({ behavior: "smooth" });
     }
   </script>
+ <script>
+  const container = document.getElementById('swiper-container');
+  const totalImages = 107; // 실제 이미지 개수에 맞춰 수정하세요
+
+  for (let i = 1; i <= totalImages; i++) {
+    const slide = document.createElement('div');
+    slide.className = 'swiper-slide';
+
+    const img = document.createElement('img');
+    
+    // 핵심 로직: 숫자를 4자리 문자열로 만들고 앞을 '0'으로 채움
+    const fileNumber = String(i).padStart(4, '0'); 
+    img.src = `img/2026_catalog_page-${fileNumber}.jpg`; 
+    
+    img.alt = `카탈로그 페이지 ${i}`;
+    img.loading = "lazy"; // 성능을 위해 지연 로딩 적용
+
+    slide.appendChild(img);
+    container.appendChild(slide);
+  }
+
+  // Swiper 초기화 (이미지가 생성된 후 실행)
+  const swiper = new Swiper(".mySwiper", {
+    pagination: { el: ".swiper-pagination", type: "fraction" }, // 100장이 넘으므로 '1/100' 형태로 표시 추천
+    navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" },
+    lazy: true,
+    loop: false, // 장수가 많을 때는 루프를 끄는 것이 사용자 혼란을 줄일 수 있습니다.
+  });
+</script>
 </body>
 </html>
