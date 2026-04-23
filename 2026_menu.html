@@ -28,38 +28,66 @@
     .view-btn { background-color: #f39c12; }
 
     /* 슬라이더 컨트롤 레이아웃 */
-    .mySwiper { padding-bottom: 95px !important; }
+    .mySwiper { padding-bottom: 100px !important; }
 
-    /* 스크롤바 스타일 */
+    /* 5. 스크롤바 위치 유지 */
     .mySwiper .swiper-scrollbar {
-        bottom: 35px !important;
-        height: 8px !important;
-        background: rgba(0, 0, 0, 0.05);
+        bottom: 20px !important; /* 가장 하단에 배치 */
+        height: 12px !important;
+        background: rgba(0, 0, 0, 0.1);
         width: 90% !important;
         left: 5% !important;
+        border-radius: 10px !important; /* 둥글게 처리 */
     }
-    .mySwiper .swiper-scrollbar-drag { background: #007BFF; }
+   /* 6. 스크롤바 핸들 (실제 잡고 움직이는 부분) */
+    .mySwiper .swiper-scrollbar-drag {
+        background: #007BFF; /* 눈에 띄는 파란색 */
+        border-radius: 10px !important;
+        cursor: grab;
+    }
 
-    /* 페이지네이션 (숫자) 위치 */
+    .mySwiper .swiper-scrollbar-drag:active {
+        cursor: grabbing;
+        background: #0056b3; /* 클릭 시 더 진하게 */
+    }
+
+    /* 3. 숫자 내비게이션 (좌측 정렬 스타일) */
     .mySwiper .swiper-pagination-fraction {
-      bottom: 55px !important;
+      position: static !important; /* 기본 absolute 해제 */
+      width: auto !important;
+      text-align: left !important;
+      font-size: 0.95rem;
       font-weight: bold;
-      color: #555;
+      color: #333;
     }
 
-    .swiper-button-next, .swiper-button-prev { top: 40%; color: #007BFF; transform: scale(0.6); }
-    
+    /* 화살표 위치 살짝 상향 조정 (간섭 방지) */
+    .swiper-button-next, .swiper-button-prev { top: 40%; transform: scale(0.6); }
+    /* 2. 하단 컨트롤 바 (숫자 + 버튼 한 줄 배치) */
     .slider-controls {
-      position: absolute; bottom: 10px; left: 0; width: 100%;
-      z-index: 10; display: flex; justify-content: center;
+      position: absolute;
+      bottom: 55px; /* 스크롤바(35px)보다 위쪽에 배치 */
+      left: 5%;
+      width: 90%;
+      z-index: 10;
+      display: flex;
+      justify-content: space-between; /* 좌측 숫자, 우측 버튼 분리 */
+      align-items: center;
     }
 
+    /* 4. 우측 찜 버튼 (작고 콤팩트하게) */
     .wish-toggle-btn {
-      background-color: #9b59b6; color: white; border: none;
-      padding: 10px 22px; font-size: 0.9rem; border-radius: 25px;
-      cursor: pointer; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      background-color: #9b59b6;
+      color: white;
+      border: none;
+      padding: 6px 12px; /* 패딩 축소 */
+      font-size: 0.8rem;  /* 폰트 크기 축소 */
+      border-radius: 15px;
+      cursor: pointer;
+      font-weight: bold;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      white-space: nowrap; /* 글자 줄바꿈 방지 */
     }
-
     .wish-btn {
       position: absolute; top: 15px; right: 15px; z-index: 10;
       background: rgba(255, 255, 255, 0.8); border: none; border-radius: 50%;
@@ -89,13 +117,12 @@
       <p class="swipe-info">◀ 좌우로 밀어서 보세요 (더블탭 확대) ▶</p>
       <div class="swiper mySwiper">
         <div class="swiper-wrapper" id="swiper-container"></div>
-        <div class="swiper-pagination"></div>
-        <div class="swiper-scrollbar"></div>
         
         <div class="slider-controls">
-            <button id="wish-mode-btn" class="wish-toggle-btn" onclick="toggleWishMode()">찜한 상품 모아보기</button>
+            <div class="swiper-pagination"></div><button id="wish-mode-btn" class="wish-toggle-btn" onclick="toggleWishMode()">찜한 상품 모아보기</button>
         </div>
-
+        
+        <div class="swiper-scrollbar"></div>
         <div class="swiper-button-next"></div>
         <div class="swiper-button-prev"></div>
       </div>
